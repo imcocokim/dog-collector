@@ -6,7 +6,7 @@
   justify-content: center;
 }
 
-.dog-img {
+.cat-img {
   width: 75%;
   max-width: 350px;
 }
@@ -195,7 +195,7 @@
     justify-content: start;
   }
 
-  .dog-img {
+  .cat-img {
     width: 25%;
     max-width: 250px;
     margin-right: 25px;

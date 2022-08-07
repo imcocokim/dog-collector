@@ -56,30 +56,61 @@
     </div>
     <h3>Add A Feeding</h3>
     <form action="{% url 'add_feeding' dog.id%}" method="post" class="subsection-content">
+      {% if dog.fed_for_today %}
+        <p class="fed">{{ dog.name }} has been fed all their meals for today!</p>
+      {% else %}
+        <p class="unfed">{{ dog.name }} might be hungry!</p>
+      {% endif %}
       {% csrf_token %}
       {{ feeding_form.as_p }}
       <button type="submit" class="btn submit">Add Feeding</button>
     </form>
     <h3>Past Feedings</h3>
-    {% if cat.feeding_set.all.count %}
-    {% else %}
-      <div class="subsection-content">
-        <p>{{ dog.name }} has never been fed 😔</p>
-      </div>
-    {% endif %}
+    {% if dog.feeding_set.all.count %}
     <table>
       <thead>
         <tr><th>Date</th><th>Meal</th></tr>
       </thead>
       <tbody>
-        {% for feeding in dog.feed_set.all %}
+        {% for feeding in dog.feeding_set.all %}
           <tr>
-            <td>{{feeding.dates}}</td>
+            <td>{{feeding.date}}</td>
             <td>{{feeding.get_meal_display}}</td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
+    {% else %}
+      <div class="subsection-content">
+        <p>{{ dog.name }} has never been fed 😔</p>
+      </div>
+    {% endif %}
+  </section>
+  <section class="toys">
+    <div class="subsection-title">
+      <h2>Toys</h2>
+      <img src="{% static 'images/string.svg' %}" alt="A ball of string" />
+      <img src="{% static 'images/mouse.svg' %}" alt="A mouse" />
+      <img src="{% static 'images/fish.svg' %}" alt="A fishy toy" />
+    </div>
+    <h3>{{ dog.name }}'s Toys</h3>
+    <div class="subsection-content">
+      {% if dog.toys.count %}
+        {% for toy in dog.toys.all  %}
+        <div class="toy-container">
+          <div class="color-block" style="background-color: {{ toy.color }}"></div>
+          <a href="{% url 'toys_detail' toy.id %}">
+            <p>A {{ toy.color }} {{ toy.name }}</p>
+          </a>
+        </div>
+        {% endfor %}
+      {% else %}
+      <p class="no-toys">{{ dog.name }} doesn't have any toys 😞</p>
+      {% endif %}
+    </div>
+    <h3>Available Toys</h3>
+    <div class="subsection-content">
+    </div>
   </section>
 </div>
 
